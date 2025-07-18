@@ -1,6 +1,8 @@
-# Bot Testing Framework
+# Conversational Agent Evaluation Framework
 
-Automated testing framework for evaluating bot conversations using Ragas answer accuracy metric.
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+A robust, automated framework for evaluating and testing conversational AI systems. This project enables systematic testing of chatbots and conversational agents through simulation, evaluation, and comprehensive metrics analysis using state-of-the-art techniques including RAGAs answer accuracy.
 
 ## Setup
 
@@ -11,10 +13,9 @@ pip install -r requirements.txt
 
 2. Set up environment variables in `.env`:
 ```
-AI_GATEWAY_TOKEN=your_token
-AI_GATEWAY_CHAT_ENDPOINT=your_endpoint
-EVAL_PROFILE=your_profile
-
+AUTH_TOKEN=your_authentication_token
+API_ENDPOINT=your_api_endpoint
+EVAL_PROFILE=your_evaluation_profile
 ```
 ## Generating Test Cases
 
@@ -22,16 +23,16 @@ There are three main ways to generate test cases:
 
 ### From a Single Conversation ID
 
-Generate test cases from a specific Botario conversation:
+Generate test cases from a specific conversation:
 ```bash
-python src/scripts/cases_generation.py --conversation-id "9900a9d9-edbe-4ea0-928b-b8c2db497169" --output cases/test_id_description.txt 
+python src/scripts/cases_generation.py --conversation-id "<CONVERSATION_ID>" --output cases/test_id_description.txt 
 ```
 
-### From a Cognitive Voice Dialog ID
+### From a Dialog ID
 
-Generate test cases from a specific Cognitive Voice dialog:
+Generate test cases from a specific dialog:
 ```bash
-python src/scripts/cases_generation.py --mode conversation --reseller-token "3d321dff-56f0-4f25-83e5-ff74de2238fa" --dialog-id "bbc72b6b-e160-48b8-ba38-dd0cce7d940b" --output cases/cases_real/test_bbc72b6b-e160-48b8-ba38-dd0cce7d940b.txt
+python src/scripts/cases_generation.py --mode conversation --auth-token "<AUTH_TOKEN>" --dialog-id "<DIALOG_ID>" --output cases/test_dialog.txt
 ```
 
 ### From a JSON File (Batch Mode)
@@ -46,7 +47,7 @@ python src/scripts/cases_generation.py --json-file example_dialogs.json --output
 The JSON file should follow this structure with a single reseller token for multiple dialogs:
 ```json
 {
-  "reseller_token": "your_reseller_token_here",
+  "auth_token": "your_authentication_token",
   "dialogs": [
     "dialog_id_1",
     "dialog_id_2",
@@ -150,26 +151,67 @@ exp: next expected response
 
 ## Project Structure
 
-- `src/`
-  - `api/` - Bot API client
-  - `config/` - Configuration settings
-  - `conversation/` - Conversation test handler
-  - `metrics/` - evaluation metrics
-  - `scripts/` - Utility scripts
-    - `simulation.py` - Run conversation simulations
-    - `evaluation.py` - Evaluate simulated conversations
-    - `cases_generation.py` - Generate test cases from conversation data
-- `cases/` - Test conversation files
-- `simulated_conversations/` - Simulation results
-- `results/` - Evaluation results (gitignored)
+```
+.
+├── src/                       # Source code
+│   ├── api/                   # API clients for different bot platforms
+│   ├── config/                # Configuration settings
+│   ├── conversation/          # Conversation handling logic
+│   ├── metrics/               # Evaluation metrics implementation
+│   │   ├── llm_metrics.py     # LLM-based metrics
+│   │   └── ragas_metrics.py   # RAGAS evaluation metrics
+│   ├── scripts/               # Main executable scripts
+│   │   ├── simulation.py      # Run conversation simulations
+│   │   ├── evaluation.py      # Evaluate simulated conversations
+│   │   └── cases_generation.py # Generate test cases
+│   └── utils/                 # Utility functions and helpers
+├── projects/                  # Project-specific configurations and cases
+│   └── [project_name]/        # Organization by project
+│       ├── cases/             # Test cases for the project
+│       ├── config/            # Configuration files
+│       ├── results/           # Evaluation results
+│       └── simulated_conversations/ # Simulation results
+├── .instructions/             # Development standards and guidelines
+├── requirements.txt           # Project dependencies
+└── README.md                  # This documentation
+```
 
 ## Features
 
-- Separate simulation and evaluation phases
-- Multiple simulation runs for consistency testing
-- API-based bot interaction
-- Multi-turn conversation testing
-- Multiple comparison metrics for output validation
-- Configurable testing parameters
-- Detailed test reporting
-- Aggregate statistics across multiple runs
+- **Comprehensive Testing Framework**:
+  - Separate simulation and evaluation phases
+  - Multiple simulation runs for consistency testing
+  - Stateful conversation tracking
+
+- **Flexible Integration**:
+  - API-based bot interaction
+  - Support for multiple bot platforms
+  - Configurable testing parameters
+
+- **Advanced Evaluation**:
+  - Multi-turn conversation testing
+  - Multiple comparison metrics
+  - RAGAs answer accuracy metrics
+  - Semantic similarity scoring
+
+- **Detailed Analytics**:
+  - Per-conversation reporting
+  - Aggregate statistics across runs
+  - Failure analysis and visualization
+  - Configurable metrics thresholds
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute:
+
+1. Fork the repository
+2. Create your feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -am 'Add some amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Submit a pull request
+
+Please make sure to update tests as appropriate and adhere to the project's coding standards.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
