@@ -1,8 +1,18 @@
 # Conversational Agent Evaluation Framework
 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-A robust, automated framework for evaluating and testing conversational AI systems. This project enables systematic testing of chatbots and conversational agents through simulation, evaluation, and comprehensive metrics analysis using state-of-the-art techniques including RAGAs answer accuracy.
+A robust, automated framework for evaluating and testing conversational AI systems through simulation, evaluation, and comprehensive metrics analysis. This project enables systematic testing of chatbots and conversational agents with state-of-the-art techniques including RAGAs answer accuracy, semantic similarity, and multi-turn conversation validation.
+
+## Key Features
+
+- **End-to-End Testing**: Automated conversation simulation and evaluation
+- **Advanced Metrics**: Includes RAGAS for answer accuracy assessment
+- **Reproducible Results**: Multiple test runs for consistency validation
+- **Configurable**: Supports various conversation agents through modular APIs
+- **Comprehensive Reporting**: Detailed metrics and visualization options
 
 ## Setup
 
@@ -11,11 +21,10 @@ A robust, automated framework for evaluating and testing conversational AI syste
 pip install -r requirements.txt
 ```
 
-2. Set up environment variables in `.env`:
-```
-AUTH_TOKEN=your_authentication_token
-API_ENDPOINT=your_api_endpoint
-EVAL_PROFILE=your_evaluation_profile
+2. Copy the example environment file and configure:
+```bash
+cp .env.example .env
+# Edit .env with your configuration
 ```
 ## Generating Test Cases
 
@@ -32,7 +41,7 @@ python src/scripts/cases_generation.py --conversation-id "<CONVERSATION_ID>" --o
 
 Generate test cases from a specific dialog:
 ```bash
-python src/scripts/cases_generation.py --mode conversation --auth-token "<AUTH_TOKEN>" --dialog-id "<DIALOG_ID>" --output cases/test_dialog.txt
+python src/scripts/cases_generation.py --mode conversation --dialog-id "<DIALOG_ID>" --output cases/test_dialog.txt
 ```
 
 ### From a JSON File (Batch Mode)
@@ -44,7 +53,7 @@ python src/scripts/cases_generation.py --json-file example_dialogs.json --output
 
 #### JSON Format
 
-The JSON file should follow this structure with a single reseller token for multiple dialogs:
+The JSON file should follow this structure:
 ```json
 {
   "auth_token": "your_authentication_token",
@@ -56,7 +65,7 @@ The JSON file should follow this structure with a single reseller token for mult
 }
 ```
 
-This format efficiently processes multiple dialogs with a single reseller token.
+This format efficiently processes multiple dialogs with a single authentication token.
 
 ### Update Test Cases with Bot Responses
 
@@ -211,6 +220,16 @@ Contributions are welcome! If you'd like to contribute:
 5. Submit a pull request
 
 Please make sure to update tests as appropriate and adhere to the project's coding standards.
+
+## Security Best Practices
+
+To maintain the security of your application:
+
+1. **Environment Variables**: Store all sensitive credentials in your `.env` file and never commit this file to version control
+2. **Credential Rotation**: Regularly rotate API keys and tokens
+3. **Access Controls**: Use the principle of least privilege when configuring API permissions
+4. **Parameter Validation**: All user inputs are validated before processing
+5. **Request Limiting**: The framework includes rate limiting to prevent API abuse
 
 ## License
 
